@@ -1,0 +1,8 @@
+logging:
+  level: DEBUG
+  loggers:
+    io.dropwizard: DEBUG
+  appenders:
+    - type: console
+      threshold: DEBUG
+      logFormat: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{mdc}] %logger{36} - %msg%n"

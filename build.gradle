@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    ext.kotlin_version = '1.1.2-2'
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.M10.3"
+}
+
+detekt {
+    config = "$project.projectDir/detekt.yml"
+    filters = ".*test.*, .*/resources/.*"
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'kotlin'
+
+    ext.dropwizardVersion = '1.1.0'
+
+    ext.jerseyVersion = '2.25.1'
+    ext.jacksonVersion = '2.8.7'
+    ext.slf4jVersion = '1.7.24'
+
+    // Test dependencies
+    ext.junitVersion = '4.12'
+    ext.mockitoKotlinVersion = '1.1.0'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    dependencies {
+        compile "org.slf4j:slf4j-api:$slf4jVersion"
+        compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+        testCompile "junit:junit:$junitVersion"
+    }
+}
+
+task check {
+    dependsOn 'detekt'
+}
+
+task stage {
+    dependsOn ':service:shadowJar'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}

@@ -1,0 +1,26 @@
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+distZip.enabled = false
+distTar.enabled = false
+
+mainClassName = 'net.dinomtie.dropwizard.ExampleApplication'
+
+dependencies {
+    compile "io.dropwizard:dropwizard-core:$dropwizardVersion"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+
+    testCompile "io.dropwizard:dropwizard-testing:$dropwizardVersion"
+    testCompile "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion"
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+    archiveName = 'dropwizard-example.jar'
+}
+
+shadowJar {
+    mergeServiceFiles()
+    baseName = 'dropwizard-example'
+}
