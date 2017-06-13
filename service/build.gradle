@@ -3,7 +3,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 distZip.enabled = false
 distTar.enabled = false
 
-mainClassName = 'net.dinomtie.dropwizard.ExampleApplication'
+mainClassName = 'net.dinomite.dropwizard.ExampleApplication'
 
 dependencies {
     compile "io.dropwizard:dropwizard-core:$dropwizardVersion"
